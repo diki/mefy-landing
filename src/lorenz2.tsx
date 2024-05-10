@@ -1,4 +1,7 @@
-import React, { useEffect, useRef } from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useEffect, useRef } from "react";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
 import * as THREE from "three";
 import img from "./textures/sprites/circle.png";
 
@@ -27,7 +30,7 @@ const ThreeScene = () => {
     } else {
       renderer.setSize(window.innerWidth / 2, window.innerHeight);
     }
-
+    //@ts-ignore
     mount.current.appendChild(renderer.domElement);
 
     const parentGroup = new THREE.Group();
@@ -52,9 +55,14 @@ const ThreeScene = () => {
     let x = 0.1,
       y = 0,
       z = 0;
-    let dotPosition = [],
-      positions = [],
+
+    //@ts-ignore
+    let dotPosition = [];
+    //@ts-ignore
+    const positions = [],
+      //@ts-ignore
       colors = [],
+      //@ts-ignore
       size = [];
 
     function simulate() {
@@ -73,23 +81,29 @@ const ThreeScene = () => {
 
       pointGeometry.setAttribute(
         "position",
+        //@ts-ignore
         new THREE.Float32BufferAttribute(dotPosition, 3)
       );
       lineGeometry.setAttribute(
         "position",
+        //@ts-ignore
         new THREE.Float32BufferAttribute(positions, 3)
       );
       lineGeometry.setAttribute(
         "color",
+        //@ts-ignore
         new THREE.Float32BufferAttribute(colors, 3)
       );
 
       drawingGroup.add(camera);
       parentGroup.rotation.z -= 0.005;
       renderer.render(scene, camera);
+      //@ts-ignore
       dotPosition = [];
       if (positions.length > 5000) {
+        //@ts-ignore
         positions.splice(0, 3);
+        //@ts-ignore
         colors.splice(0, 3);
       }
     }
@@ -107,6 +121,7 @@ const ThreeScene = () => {
     animate();
 
     return () => {
+      //@ts-ignore
       mount.current.removeChild(renderer.domElement);
     };
   }, []);

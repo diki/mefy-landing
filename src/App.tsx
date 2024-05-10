@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from "react";
 import "./App.css";
 
 import Canvas from "./lorenz2";
@@ -13,7 +12,7 @@ const App = () => {
               <h1 className="text-7xl font-bold metallic-text text-left mb-12">
                 Your AI sidekick
               </h1>
-              <div className="text-2xl text-gray-900 leading-8 tracking-normal leading-10">
+              <div className="text-2xl text-gray-900 tracking-normal leading-10">
                 Seamlessly and constantly learning from your interactions,
                 mefy.ai remembers and organizes the content you like and learns
                 from it. Tailored to continuously enhance both your searches and

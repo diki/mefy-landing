@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const LorenzAttractor = () => {
-  const canvasRef = useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const canvasRef: any = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
