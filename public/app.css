@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 #lorenz > canvas {
-    /* scale: 1.25; */
-    /* margin-left: -80px; */
+  /* scale: 1.25; */
+  /* margin-left: -80px; */
 }
 
-body{
-    font-family: "Montserrat", sans-serif;
+body {
+  font-family: "Open Sans", sans-serif;
 }
 /* styles.css */
 @layer components {
-    /* .metallic-text {
+  /* .metallic-text {
       @apply text-gray-300 font-bold;
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25));
       -webkit-background-clip: text;
@@ -20,7 +20,7 @@ body{
       text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
     } */
 
-    /* .metallic-text {
+  /* .metallic-text {
         @apply text-gray-300 font-bold;
         background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(230, 230, 230, 0.8));
         -webkit-background-clip: text;
@@ -28,28 +28,33 @@ body{
         text-shadow: 1px 1px 2px grey, 0 0 1px darkgrey;
       } */
 
-      .metallic-text {
-        text-align: center;
-        margin: 24px 0px;
-        text-wrap: balance;
-        background: linear-gradient(to right bottom, rgb(33, 33, 33) 30%, rgba(33, 33, 33)) text;
-        -webkit-box-decoration-break: clone;
-        -webkit-text-fill-color: transparent;
-        color: unset;
-        padding-bottom: 0.13em;
-        font-size: 80px;
-        line-height: 1;
-        letter-spacing: -0.02em;
-        font-weight: 500;        
-        /* @apply text-gray-300 font-bold;
+  .metallic-text {
+    text-align: center;
+    margin: 24px 0px;
+    text-wrap: balance;
+    background: linear-gradient(
+        to right bottom,
+        rgb(33, 33, 33) 30%,
+        rgba(33, 33, 33)
+      )
+      text;
+    -webkit-box-decoration-break: clone;
+    -webkit-text-fill-color: transparent;
+    color: unset;
+    padding-bottom: 0.13em;
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    /* @apply text-gray-300 font-bold;
         background: linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(240, 240, 240, 1));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-shadow: 0px 1px 1px #ccc, 0 0 5px #fff, 0 2px 4px rgba(0, 0, 0, 0.5); */
-      }
   }
+}
 
-  /* Add this to your global styles.css or a <style> tag */
+/* Add this to your global styles.css or a <style> tag */
 .gradient-border-button {
   position: relative;
   background: transparent;
@@ -62,20 +67,28 @@ body{
 }
 
 .gradient-border-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgba(29,78,216,1) 0%, rgba(99,102,241,1) 50%, rgba(168,85,247,1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(29, 78, 216, 1) 0%,
+    rgba(99, 102, 241, 1) 50%,
+    rgba(168, 85, 247, 1) 100%
+  );
   z-index: -1;
   border-radius: 8px; /* Adjust the border-radius as needed */
   padding: 2px; /* This creates the 'border' effect */
 }
 
 .gradient-border-button:hover {
-  background: rgba(255, 255, 255, 0.2); /* Optional: slight background on hover */
+  background: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Optional: slight background on hover */
 }
-
-  

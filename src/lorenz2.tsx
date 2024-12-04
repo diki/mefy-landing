@@ -20,16 +20,41 @@ const ThreeScene = () => {
     camera.position.set(0.0, 50.0, 0.0);
     camera.lookAt(0, 0, 30);
 
+    // Initial renderer setup
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
     });
 
-    if (window.innerWidth < 768) {
-      renderer.setSize(window.innerWidth, window.innerHeight / 2);
-    } else {
-      renderer.setSize(window.innerWidth / 2, window.innerHeight);
-    }
+    const updateRendererSize = () => {
+      const scrollY = window.scrollY;
+      const scrollFactor = Math.max(0.5, 1 - scrollY / 1000);
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+
+      width = Math.max(window.innerWidth / 1.5, width * scrollFactor);
+      height = Math.max(window.innerHeight / 1.5, height * scrollFactor);
+
+      renderer.setSize(width, height * 1.2);
+
+      // Update opacity
+      const opacity = Math.max(0.5, 1 - scrollY / 1000);
+      renderer.domElement.style.opacity = opacity.toString();
+
+      // Center the canvas
+      renderer.domElement.style.position = "fixed";
+      renderer.domElement.style.left = "50%";
+      renderer.domElement.style.transform = "translateX(-50%)";
+    };
+
+    // Initial size setup
+    updateRendererSize();
+
+    // Add scroll listener
+    window.addEventListener("scroll", updateRendererSize);
+    window.addEventListener("resize", updateRendererSize);
+
     //@ts-ignore
     mount.current.appendChild(renderer.domElement);
 
@@ -42,7 +67,7 @@ const ThreeScene = () => {
     const sprite = loader.load(img);
     const pointGeometry = new THREE.BufferGeometry();
     const pointMaterial = new THREE.PointsMaterial({
-      size: 3,
+      size: 1,
       sizeAttenuation: true,
       map: sprite,
       alphaTest: 0.5,
@@ -50,8 +75,13 @@ const ThreeScene = () => {
     });
 
     const lineGeometry = new THREE.BufferGeometry();
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+    const lineMaterial = new THREE.LineBasicMaterial({
+      transparent: true,
+      opacity: 1,
+      linewidth: 1, // Add this line to increase stroke width
+    });
 
+    let time = 0; // Add time variable for animation
     let x = 0.1,
       y = 0,
       z = 0;
@@ -66,6 +96,28 @@ const ThreeScene = () => {
       size = [];
 
     function simulate() {
+      time += 0.01;
+
+      // Animate color with added light orange
+      const purple = new THREE.Color("#A855F7");
+      const pink = new THREE.Color("#EC4899");
+      const fuchsia = new THREE.Color("#D946EF");
+      const orange = new THREE.Color("#FFA07A"); // Light orange
+
+      // Calculate color based on time with 4 colors now
+      const color = new THREE.Color();
+      if (time % 4 < 1) {
+        color.lerpColors(purple, pink, time % 1);
+      } else if (time % 4 < 2) {
+        color.lerpColors(pink, fuchsia, time % 1);
+      } else if (time % 4 < 3) {
+        color.lerpColors(fuchsia, orange, time % 1);
+      } else {
+        color.lerpColors(orange, purple, time % 1);
+      }
+
+      lineMaterial.color = color;
+
       const dt = 0.01;
       const dx = 10 * (y - x) * dt;
       const dy = (x * (28 - z) - y) * dt;
@@ -96,7 +148,7 @@ const ThreeScene = () => {
       );
 
       drawingGroup.add(camera);
-      parentGroup.rotation.z -= 0.005;
+      parentGroup.rotation.z -= 0.0005;
       renderer.render(scene, camera);
       //@ts-ignore
       dotPosition = [];
@@ -121,12 +173,19 @@ const ThreeScene = () => {
     animate();
 
     return () => {
+      window.removeEventListener("scroll", updateRendererSize);
+      window.removeEventListener("resize", updateRendererSize);
       //@ts-ignore
       mount.current.removeChild(renderer.domElement);
     };
   }, []);
 
-  return <div ref={mount} />;
+  return (
+    <div
+      ref={mount}
+      className="fixed top-0 left-0 w-full flex justify-center z-0"
+    />
+  );
 };
 
 export default ThreeScene;
