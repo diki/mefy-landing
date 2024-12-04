@@ -22,7 +22,7 @@ const App = () => {
       // Adjust the divisor to make the animation complete faster
       // Using just elementHeight makes the animation complete roughly when the element is fully in view
       const progress = Math.min(
-        Math.max(visiblePortion / (windowHeight * 0.5), 0),
+        Math.max(visiblePortion / (windowHeight * 0.6), 0),
         1
       );
 
@@ -36,7 +36,7 @@ const App = () => {
       // Update each word's color based on its position and scroll progress
       words.forEach((_, index) => {
         controls.start((i) => ({
-          color: i < activeWords ? "#ffffff" : "#9CA3AF",
+          color: i < activeWords ? "#ffffff" : "#333",
           transition: { duration: 0.1 },
         }));
       });
@@ -98,8 +98,8 @@ const App = () => {
               <div className="text-white w-full flex flex-col items-center gap-6 mt-36 z-10 px-4">
                 <div
                   ref={textRef}
-                  className="text-4xl text-center w-full max-w-2xl"
-                  style={{ wordWrap: "break-word" }}
+                  className="text-4xl text-center w-full max-w-2xl font-semibold"
+                  style={{ wordWrap: "break-word", lineHeight: "1.25" }}
                 >
                   <div className="flex flex-wrap justify-center">
                     {words.map((word, i) => (

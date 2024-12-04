@@ -33,8 +33,8 @@ const ThreeScene = () => {
       let width = window.innerWidth;
       let height = window.innerHeight;
 
-      width = Math.max(window.innerWidth / 1.5, width * scrollFactor);
-      height = Math.max(window.innerHeight / 1.5, height * scrollFactor);
+      width = Math.max(window.innerWidth / 1.2, width * scrollFactor);
+      height = Math.max(window.innerHeight / 1.2, height * scrollFactor);
 
       renderer.setSize(width, height * 1.2);
 
