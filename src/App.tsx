@@ -1,39 +1,56 @@
 import "./App.css";
 import { motion, useAnimation } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "./lorenz2";
+import Features from "./Features";
 
 const App = () => {
   const controls = useAnimation();
   const textRef = useRef(null);
+  const [bgColor, setBgColor] = useState("rgb(0, 0, 0)");
+  const [textColor, setTextColor] = useState("rgb(255, 255, 255)"); // Add this line
 
   useEffect(() => {
     const handleScroll = () => {
       if (!textRef.current) return;
 
+      const hero3Element = document.getElementById("hero3");
+      if (!hero3Element) return;
+
+      const hero3Rect = hero3Element.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const hero3VisiblePortion = windowHeight - hero3Rect.top;
+      const hero3Height = hero3Element.offsetHeight;
+
+      // Calculate progress through hero3
+      const hero3ScrollProgress = hero3VisiblePortion / hero3Height;
+
+      // When near end of hero3 (last 20%), transition to white
+      if (hero3ScrollProgress > 0.8) {
+        setBgColor("rgb(231, 229, 228)");
+        setTextColor("rgb(30, 30, 30)");
+      } else {
+        const colorValue = Math.floor(hero3ScrollProgress * 255);
+        const textColorValue = 255 - colorValue; // Inverse of background color
+        setBgColor(`rgb(${colorValue}, ${colorValue}, ${colorValue})`);
+        setTextColor(
+          `rgb(${textColorValue}, ${textColorValue}, ${textColorValue})`
+        );
+      }
+
       const element = textRef.current;
       const rect = element.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Calculate how far the element has been scrolled into view
-      const elementTop = rect.top;
-      const visiblePortion = windowHeight - elementTop;
-
-      // Adjust the divisor to make the animation complete faster
-      // Using just elementHeight makes the animation complete roughly when the element is fully in view
+      const visiblePortion = windowHeight - rect.top;
       const progress = Math.min(
-        Math.max(visiblePortion / (windowHeight * 0.6), 0),
+        Math.max(visiblePortion / (windowHeight * 0.5), 0),
         1
       );
-
-      // Calculate how many words should be white based on scroll progress
       const text =
         "Build powerful AI workflows that drive organic growth by combining top models, brand assets, and ready-to-use integrations";
       const words = text.split(" ");
       const wordCount = words.length;
       const activeWords = Math.floor(progress * wordCount);
 
-      // Update each word's color based on its position and scroll progress
       words.forEach((_, index) => {
         controls.start((i) => ({
           color: i < activeWords ? "#ffffff" : "#333",
@@ -42,11 +59,8 @@ const App = () => {
       });
     };
 
-    // Add scroll event listener
     window.addEventListener("scroll", handleScroll);
-    // Initial check
     handleScroll();
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, [controls]);
 
@@ -61,7 +75,12 @@ const App = () => {
           <div className="fixed top-0 left-0 w-full flex justify-center">
             <Canvas />
           </div>
-          <div className="bg-gradient-to-b from-black to-neutral-900">
+          <div
+            style={{
+              backgroundColor: bgColor,
+              transition: "background-color 0.3s ease-out",
+            }}
+          >
             <div
               className="flex flex-col items-center w-full relative h-screen"
               id="hero"
@@ -98,7 +117,7 @@ const App = () => {
               <div className="text-white w-full flex flex-col items-center gap-6 mt-36 z-10 px-4">
                 <div
                   ref={textRef}
-                  className="text-4xl text-center w-full max-w-2xl font-semibold"
+                  className="text-5xl text-center w-full max-w-2xl font-semibold"
                   style={{ wordWrap: "break-word", lineHeight: "1.25" }}
                 >
                   <div className="flex flex-wrap justify-center">
@@ -118,10 +137,40 @@ const App = () => {
               </div>
             </div>
             <div
-              className="flex flex-col items-center w-full relative min-h-screen"
-              id="hero"
+              className="flex flex-col items-center w-full relative min-h-screen text-white"
+              id="hero3"
             >
-              s
+              <div className="max-w-xl flex flex-col items-center gap-6 z-10">
+                <div
+                  className="text-6xl tracking-normal leading-10 text-center max-w-xl mt-8"
+                  style={{
+                    // fontFamily: '"Merriweather", serif',
+                    color: textColor,
+                    transition: "color 0.3s ease-out",
+                    lineHeight: "1.1",
+                  }}
+                >
+                  AI agents that can write like you...
+                </div>
+              </div>
+              <Features />
+              {/* <div className="h-[70vh] w-[30vw] bg-white mt-12 rounded-md border border-gray-300">
+                s
+              </div> */}
+            </div>
+            <div
+              className="flex flex-col items-center w-full relative min-h-screen text-white"
+              id="hero4"
+            >
+              <div className="text-white max-w-xl flex flex-col items-center gap-6 z-10">
+                <div
+                  className="text-7xl text-white tracking-normal leading-10 text-center max-w-xl font-light mt-8"
+                  style={{ fontFamily: '"Merriweather", serif' }}
+                >
+                  AI agents that can write like you
+                </div>
+              </div>
+              <div className="h-[40vh] w-96 bg-white">s</div>
             </div>
           </div>
         </div>
