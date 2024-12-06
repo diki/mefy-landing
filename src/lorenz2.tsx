@@ -37,43 +37,33 @@ const ThreeScene = () => {
       );
 
       let width = windowWidth;
-      let height = windowHeight;
+      let height = windowHeight * 1.2;
 
       if (hero3Progress > 0) {
         const scaleFactor = 1 + hero3Progress * 1.5;
         width *= scaleFactor;
         height *= scaleFactor;
 
-        // Adjust camera to maintain center focus
-        const zoomFactor = 1 / scaleFactor;
-        camera.zoom = zoomFactor;
-        camera.updateProjectionMatrix();
-
-        const opacity = Math.max(0, 1 - hero3Progress);
+        const opacity = Math.max(0, 1 - hero3Progress * 1.2);
         renderer.domElement.style.opacity = opacity.toString();
+
+        renderer.domElement.style.transform = `translate(-50%, -${
+          hero3Progress * 5
+        }%) scale(${scaleFactor})`;
       } else {
         const scrollFactor = Math.max(0.5, 1 - scrollY / 1000);
         width = Math.max(windowWidth / 1.2, width * scrollFactor);
         height = Math.max(windowHeight / 1.2, height * scrollFactor);
 
-        // Reset camera zoom
-        camera.zoom = 1;
-        camera.updateProjectionMatrix();
         renderer.domElement.style.opacity = "1";
+        renderer.domElement.style.transform = "translateX(-50%)";
       }
 
-      renderer.setSize(width, height * 1.2);
-
-      // Center the canvas with adjusted positioning
-      const leftOffset = (width - windowWidth) / 2;
+      renderer.setSize(width, height);
       renderer.domElement.style.position = "fixed";
       renderer.domElement.style.left = "50%";
-      renderer.domElement.style.transform = `translateX(-50%) translateY(${
-        -leftOffset / 4
-      }px)`;
     };
 
-    // Rest of the code remains the same...
     mount.current.appendChild(renderer.domElement);
 
     const parentGroup = new THREE.Group();
@@ -102,45 +92,50 @@ const ThreeScene = () => {
     let time = 0;
     let x = 0.1,
       y = 0,
-      z = 0;
+      z = 30;
     let dotPosition = [];
     const positions = [],
       colors = [],
       size = [];
 
-    function simulate() {
-      time += 0.01;
+    function simulate(isInitial = false) {
+      const iterations = isInitial ? 300 : 1; // 300 iterations = ~3 seconds
 
-      const purple = new THREE.Color("#A855F7");
-      const pink = new THREE.Color("#EC4899");
-      const fuchsia = new THREE.Color("#D946EF");
-      const orange = new THREE.Color("#FFA07A");
+      for (let i = 0; i < iterations; i++) {
+        time += 0.01;
 
-      const color = new THREE.Color();
-      if (time % 4 < 1) {
-        color.lerpColors(purple, pink, time % 1);
-      } else if (time % 4 < 2) {
-        color.lerpColors(pink, fuchsia, time % 1);
-      } else if (time % 4 < 3) {
-        color.lerpColors(fuchsia, orange, time % 1);
-      } else {
-        color.lerpColors(orange, purple, time % 1);
+        const purple = new THREE.Color("#A855F7");
+        const pink = new THREE.Color("#EC4899");
+        const fuchsia = new THREE.Color("#D946EF");
+        const orange = new THREE.Color("#FFA07A");
+
+        const color = new THREE.Color();
+        if (time % 4 < 1) {
+          color.lerpColors(purple, pink, time % 1);
+        } else if (time % 4 < 2) {
+          color.lerpColors(pink, fuchsia, time % 1);
+        } else if (time % 4 < 3) {
+          color.lerpColors(fuchsia, orange, time % 1);
+        } else {
+          color.lerpColors(orange, purple, time % 1);
+        }
+
+        lineMaterial.color = color;
+
+        const dt = 0.01;
+        const dx = 10 * (y - x) * dt;
+        const dy = (x * (28 - z) - y) * dt;
+        const dz = (x * y - (8 / 3) * z) * dt;
+        x += dx;
+        y += dy;
+        z += dz;
+
+        positions.push(x, y, z);
+        colors.push(x / 30 + 0.5, y / 30 + 0.5, z / 30 + 0.5);
+        size.push(10);
       }
 
-      lineMaterial.color = color;
-
-      const dt = 0.01;
-      const dx = 10 * (y - x) * dt;
-      const dy = (x * (28 - z) - y) * dt;
-      const dz = (x * y - (8 / 3) * z) * dt;
-      x += dx;
-      y += dy;
-      z += dz;
-
-      dotPosition.push(x, y, z);
-      positions.push(x, y, z);
-      colors.push(x / 30 + 0.5, y / 30 + 0.5, z / 30 + 0.5);
-      size.push(10);
+      dotPosition = [x, y, z];
 
       pointGeometry.setAttribute(
         "position",
@@ -156,9 +151,9 @@ const ThreeScene = () => {
       );
 
       drawingGroup.add(camera);
-      parentGroup.rotation.z -= 0.0005;
+      parentGroup.rotation.z -= 0.0025;
       renderer.render(scene, camera);
-      dotPosition = [];
+
       if (positions.length > 5000) {
         positions.splice(0, 3);
         colors.splice(0, 3);
@@ -170,9 +165,12 @@ const ThreeScene = () => {
     scene.add(dot);
     scene.add(line);
 
+    // Pre-populate with 3 seconds worth of points
+    simulate(true);
+
     const animate = () => {
       requestAnimationFrame(animate);
-      simulate();
+      simulate(false);
     };
 
     animate();

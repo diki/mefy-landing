@@ -158,19 +158,6 @@ const App = () => {
                 s
               </div> */}
             </div>
-            <div
-              className="flex flex-col items-center w-full relative min-h-screen text-white pt-32"
-              id="hero4"
-            >
-              <div className="w-10/12 mx-auto bg-white rounded-md border border-gray-300">
-                <div
-                  className="text-7xl text-white tracking-normal leading-10 text-center max-w-xl font-light mt-8"
-                  style={{ fontFamily: '"Merriweather", serif' }}
-                >
-                  AI agents that can write like you
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
