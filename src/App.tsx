@@ -159,10 +159,10 @@ const App = () => {
               </div> */}
             </div>
             <div
-              className="flex flex-col items-center w-full relative min-h-screen text-white"
+              className="flex flex-col items-center w-full relative min-h-screen text-white pt-32"
               id="hero4"
             >
-              <div className="text-white max-w-xl flex flex-col items-center gap-6 z-10">
+              <div className="w-10/12 mx-auto bg-white rounded-md border border-gray-300">
                 <div
                   className="text-7xl text-white tracking-normal leading-10 text-center max-w-xl font-light mt-8"
                   style={{ fontFamily: '"Merriweather", serif' }}
@@ -170,7 +170,6 @@ const App = () => {
                   AI agents that can write like you
                 </div>
               </div>
-              <div className="h-[40vh] w-96 bg-white">s</div>
             </div>
           </div>
         </div>

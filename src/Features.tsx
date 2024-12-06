@@ -29,7 +29,7 @@ const FeatureSection = () => {
       id: 3,
       title: "Actions",
       description:
-        "Fin personalizes its service for every customer wherever they are, taking actions on their behalf, and adjusting quickly to serve their unique needs.",
+        "Fin personalizes its service for every customer wherever they are, taking actions on their behalf, and adjusting quickly to serve their",
       content: "Actions content here",
     },
     {
@@ -49,12 +49,13 @@ const FeatureSection = () => {
           <div
             key={feature.id}
             onClick={() => setActiveFeature(feature.id)}
-            className={`cursor-pointer transition-all duration-300 ${
+            className={`mb-8 cursor-pointer transition-all duration-300 ${
               activeFeature === feature.id
                 ? "opacity-100"
                 : "opacity-50 hover:opacity-75"
             }`}
           >
+            <div className="w-full border border-gray-700 mb-4"></div>
             <h3 className="text-xl font-semibold mb-2 text-neutral-800">
               {feature.title}
             </h3>
@@ -74,13 +75,16 @@ const FeatureSection = () => {
           <div
             key={feature.id}
             onClick={() => setActiveFeature(feature.id)}
-            className={`cursor-pointer transition-all duration-300 ${
+            className={`mb-8 cursor-pointer transition-all duration-300 ${
               activeFeature === feature.id
                 ? "opacity-100"
                 : "opacity-50 hover:opacity-75"
             }`}
           >
-            <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+            <div className="w-full border border-gray-700 mb-4"></div>
+            <h3 className="text-xl font-semibold mb-2 text-neutral-800">
+              {feature.title}
+            </h3>
             <p className="text-gray-600">{feature.description}</p>
           </div>
         ))}
