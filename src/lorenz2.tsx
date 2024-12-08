@@ -37,7 +37,7 @@ const ThreeScene = () => {
       );
 
       let width = windowWidth;
-      let height = windowHeight * 1.2;
+      let height = windowHeight * 1.5;
 
       if (hero3Progress > 0) {
         const scaleFactor = 1 + hero3Progress * 1.5;
@@ -92,14 +92,14 @@ const ThreeScene = () => {
     let time = 0;
     let x = 0.1,
       y = 0,
-      z = 30;
+      z = 0;
     let dotPosition = [];
     const positions = [],
       colors = [],
       size = [];
 
     function simulate(isInitial = false) {
-      const iterations = isInitial ? 300 : 1; // 300 iterations = ~3 seconds
+      const iterations = isInitial ? 1000 : 1; // 300 iterations = ~3 seconds
 
       for (let i = 0; i < iterations; i++) {
         time += 0.01;
@@ -151,7 +151,7 @@ const ThreeScene = () => {
       );
 
       drawingGroup.add(camera);
-      parentGroup.rotation.z -= 0.0025;
+      parentGroup.rotation.z -= 0.0015;
       renderer.render(scene, camera);
 
       if (positions.length > 5000) {

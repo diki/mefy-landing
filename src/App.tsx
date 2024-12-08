@@ -3,6 +3,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Canvas from "./lorenz2";
 import Features from "./Features";
+import Video from "./video";
 
 const App = () => {
   const controls = useAnimation();
@@ -92,7 +93,7 @@ const App = () => {
                     fontFamily: '"Open Sans", serif',
                   }}
                 >
-                  Jot/Ops
+                  JotOps
                 </h1>
                 <div
                   className="text-3xl text-white tracking-normal leading-10 text-center max-w-xl font-light mt-8"
@@ -157,6 +158,35 @@ const App = () => {
               {/* <div className="h-[70vh] w-[30vw] bg-white mt-12 rounded-md border border-gray-300">
                 s
               </div> */}
+            </div>
+            <div
+              className="flex flex-col items-center w-full relative min-h-screen text-white pt-32"
+              id="hero4"
+            >
+              <div className="w-10/12 mx-auto bg-white rounded-md border border-gray-300 flex flex-row p-12">
+                <div className="w-1/2 flex flex-col justify-center text-neutral-600 gap-4">
+                  <div className="text-xs flex items-center gap-2 tracking-widest">
+                    <span className="h-2 w-2 bg-orange-600"></span>
+                    <span>VIDEO OVERVIEW</span>
+                  </div>
+                  <div
+                    className="text-5xl font-thin"
+                    style={{
+                      fontFamily: '"Roboto Serif", serif',
+                      lineHeight: "1.25",
+                    }}
+                  >
+                    Learn how JotOps
+                    <br /> works in 60 seconds
+                  </div>
+                </div>
+                <div
+                  className="text-7xl text-white tracking-normal leading-10 text-center max-w-xl font-light w-1/2"
+                  style={{ fontFamily: '"Merriweather", serif' }}
+                >
+                  <Video />
+                </div>
+              </div>
             </div>
           </div>
         </div>
